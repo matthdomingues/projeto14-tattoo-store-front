@@ -4,7 +4,7 @@ import UserContext from "../assets/context/UserContext";
 
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
-// import Home from "./Home";
+import Home from "./Home";
 // import Deposit from "./Deposit";
 // import Withdraw from "./Withdraw";
 
@@ -18,6 +18,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/home" element={<Home />} />
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>
