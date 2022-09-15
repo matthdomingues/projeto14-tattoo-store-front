@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { Link } from "react-router-dom";
 import UserContext from "../assets/context/UserContext";
 import styled from "styled-components";
 
@@ -8,22 +7,13 @@ import { Fade } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css'
 
 import omega from "../assets/imagens/omega.png"
-import bird from "../assets/imagens/Icons/Bird.png"
-import keys from "../assets/imagens/Icons/Keys.png"
-import mountains from "../assets/imagens/Icons/Mountains.png"
-import sun from "../assets/imagens/Icons/Sun.png"
+import { icons, tattoos } from "../assets/Images";
 
 export default function Home() {
 
-    const a = "https://images.unsplash.com/photo-1509721434272-b79147e0e708?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80";
+    const { user } = useContext(UserContext);
 
-    const fadeImages = [
-        "https://images.unsplash.com/photo-1509721434272-b79147e0e708?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80",
-        "https://images.unsplash.com/photo-1506710507565-203b9f24669b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1536&q=80",
-        "https://images.unsplash.com/photo-1536987333706-fc9adfb10d91?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80"
-    ];
-
-
+    // const user = {name: "Matheus"}
 
     return (<>
         <Screen1>
@@ -31,15 +21,28 @@ export default function Home() {
                 <img alt="" src={omega}></img>
                 <h1>mega Tattoos</h1>
             </Logo>
-            <Intro><p>The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p></Intro>
+
+            {user !== null ?
+                <h5>Seja bem-vindo(a), {user.name}!</h5>
+                :
+                <div className="buttons">
+                    <Link1 to={"/sign-in"}>
+                        <Button1>Entrar</Button1>
+                    </Link1>
+                    <Link1 to={"/sign-up"}>
+                        <Button1>Cadastrar</Button1>
+                    </Link1>
+                </div>}
+
+            <Intro><p><strong>Omega Tattoos</strong> é um estúdio de tatuagens onde você pode explorar e decidir fazer quantas tatuagens quiser, todas com um preço fixo e dividida por especialidades dos nossos tatuadores!</p></Intro>
 
             <Slideshow>
                 <div className="slide-container">
                     <Fade>
-                        {fadeImages.map((fadeImage, index) => (
+                        {tattoos.map((fadeImage, index) => (
                             <div className="each-fade" key={index}>
                                 <div className="image-container">
-                                    <img alt="" src={a} />
+                                    <img alt="" src={fadeImage.photo} />
                                 </div>
                             </div>
                         ))}
@@ -52,22 +55,28 @@ export default function Home() {
             <Body>
                 <Link1 to={"/artist1"}>
                     <div className="artist">
-                        <img alt="" src={bird}></img>
+                        <img alt="" src={icons[0]}></img>
                         <h1>Preto e Branco</h1>
                     </div>
                 </Link1>
-                <Link1 to={"/artist2"}><div className="artist">
-                    <img alt="" src={keys}></img>
-                    <h1>Preto e Branco</h1>
-                </div></Link1>
-                <Link1 to={"/artist3"}> <div className="artist">
-                    <img alt="" src={mountains}></img>
-                    <h1>Preto e Branco</h1>
-                </div></Link1>
-                <Link1 to={"/artist4"}><div className="artist">
-                    <img alt="" src={sun}></img>
-                    <h1>Preto e Branco</h1>
-                </div></Link1>
+                <Link1 to={"/artist2"}>
+                    <div className="artist">
+                        <img alt="" src={icons[1]}></img>
+                        <h1>Preto e Branco</h1>
+                    </div>
+                </Link1>
+                <Link1 to={"/artist3"}>
+                    <div className="artist">
+                        <img alt="" src={icons[2]}></img>
+                        <h1>Preto e Branco</h1>
+                    </div>
+                </Link1>
+                <Link1 to={"/artist4"}>
+                    <div className="artist">
+                        <img alt="" src={icons[3]}></img>
+                        <h1>Preto e Branco</h1>
+                    </div>
+                </Link1>
             </Body>
 
             <h3>Em Breve:</h3>
@@ -90,7 +99,16 @@ const Screen1 = styled.div`
     width: 375px;
     display: flex;
     flex-direction: column;
-    align-items: center;       
+    align-items: center;
+    
+    .buttons {
+        height: 50px;
+        width: 317px;
+        margin: 5px 0px;
+        box-sizing: border-box;
+        display: flex;        
+        justify-content: space-between;
+    }
 
     h2 {
     width: 330px;
@@ -133,6 +151,20 @@ const Screen1 = styled.div`
     text-align: center;    
     color: white;
     }
+
+    h5 {
+    width: 330px;
+    margin: 8px 0px;
+    box-sizing: border-box;
+
+    font-family: 'Marcellus', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 17px;
+    text-align: center;    
+    color: #797979;
+    }
 `
 
 const Logo = styled.div`   
@@ -164,7 +196,7 @@ const Logo = styled.div`
 
 const Intro = styled.div`
 
-    height: 130px;
+    height: 90px;
     width: 330px;
     display: flex;    
     align-items: center;
@@ -183,22 +215,56 @@ const Intro = styled.div`
 
 const Slideshow = styled.div`
 
-    height: 150px;
+    height: 170px;
     width: 330px;     
     margin: 5px 0px;
-    box-sizing: border-box;     
+    box-sizing: border-box;        
 
     img { 
-    height: 150px;
+    height: 170px;
     width: 330px;
-    opacity: 0.7; 
-    border-radius: 8px;        
-}
+    object-fit: cover;
+    opacity: 0.6;    
+    border-radius: 8px;      
+    }
+`
+
+const Button1 = styled.button`
+        display: flex;
+        width: 150px;
+        height: 45px;        
+        
+        font-style: normal;
+        font-weight: 400;        
+        line-height: 26px;
+        text-align: center;
+        color: #FFFFFF;
+        margin-bottom: 25px;
+        box-sizing: border-box;
+        cursor: pointer;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+
+        border-style: solid;
+        border-width: 1px;
+        border-color: #fff;
+        background-color: transparent;       
+        font-family: 'Marcellus', sans-serif;
+        color: #fff;
+        font-size: 14px;
+        line-height: 1em;
+        letter-spacing: 3.36px;
+        text-transform: uppercase;
+
+        &:disabled{
+            opacity: 0.7;
+        }
 `
 
 const Body = styled.div`
 
-    height: 120px;
+    height: 110px;
     width: 350px;
     display: flex;
     align-items: center;    
