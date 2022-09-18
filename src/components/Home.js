@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import UserContext from "../assets/context/UserContext";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import { Fade } from 'react-slideshow-image';
@@ -11,9 +12,16 @@ import { icons, tattoos } from "../assets/Images";
 
 export default function Home() {
 
-    const { user } = useContext(UserContext);
+    const navigate = useNavigate();
 
-    // const user = {name: "Matheus"}
+    // const { user } = useContext(UserContext);
+    // <img alt="" src={exit} onClick={() => { setUser(null); navigate("/"); }}></img>
+
+    // ion icons
+    // lixo: <ion-icon name="trash-outline"></ion-icon>
+    // cart: <ion-icon name="cart-outline"></ion-icon>
+
+    const user = { name: "Matheus" }
 
     return (<>
         <Screen1>
@@ -21,20 +29,19 @@ export default function Home() {
                 <img alt="" src={omega}></img>
                 <h1>mega Tattoos</h1>
             </Logo>
+            <UserBar>
+                <>
+                    <h5>Bem-vindo(a), {user.name}!</h5>
+                </>
+                <>
+                    <ion-icon name="cart-outline" color="light" onClick={() => { navigate("/checkout"); }}></ion-icon>
+                    <ion-icon name="exit-outline" color="light" onClick={() => { navigate("/"); }}></ion-icon>
+                </>
+            </UserBar>
 
-            {user !== null ?
-                <h5>Seja bem-vindo(a), {user.name}!</h5>
-                :
-                <div className="buttons">
-                    <Link1 to={"/sign-in"}>
-                        <Button1>Entrar</Button1>
-                    </Link1>
-                    <Link1 to={"/sign-up"}>
-                        <Button1>Cadastrar</Button1>
-                    </Link1>
-                </div>}
-
-            <Intro><p><strong>Omega Tattoos</strong> é um estúdio de tatuagens onde você pode explorar e decidir fazer quantas tatuagens quiser, todas com um preço fixo e dividida por especialidades dos nossos tatuadores!</p></Intro>
+            <Intro>
+                <p><strong>Omega Tattoos</strong> é um estúdio de tatuagens onde você pode explorar e decidir fazer quantas tatuagens quiser, todas com um preço fixo e dividida por especialidades dos nossos tatuadores!</p>
+            </Intro>
 
             <Slideshow>
                 <div className="slide-container">
@@ -152,19 +159,7 @@ const Screen1 = styled.div`
     color: white;
     }
 
-    h5 {
-    width: 330px;
-    margin: 8px 0px;
-    box-sizing: border-box;
-
-    font-family: 'Marcellus', sans-serif;
-    font-style: normal;
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 17px;
-    text-align: center;    
-    color: #797979;
-    }
+    
 `
 
 const Logo = styled.div`   
@@ -191,6 +186,49 @@ const Logo = styled.div`
         height: 50px;
         margin-right: 3px;
         box-sizing: border-box;
+    }
+`
+
+const UserBar = styled.div`
+    height: 32px;
+    width: 375px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    box-sizing: border-box;    
+    padding: 0px 8px;
+
+    ion-icon {
+        width: 28px;
+        height: 28px;
+    }
+
+    #notification-button {            
+            position: relative;
+            background-color: black;
+            width: 42px;            
+            overflow: visible!important;
+    }
+
+
+   #notifications-badge {
+            background-color: red;
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            border-radius: 100%;
+    }
+
+    h5 {
+    padding-right: 35px;
+    font-family: 'Marcellus', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 17px;
+    text-align: left;    
+    color: #797979;
     }
 `
 
