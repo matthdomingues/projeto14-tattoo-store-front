@@ -8,9 +8,7 @@ export default function Checkout() {
     const navigate = useNavigate();
 
     // map com os pedidos efetuados
-    // deletar pedidos
-    // botao de confirmar pedido
-    // atalho de voltar ao home
+    // deletar pedidos: <ion-icon name="trash-outline" color="black"></ion-icon>    
 
     return (
         <>
@@ -20,8 +18,18 @@ export default function Checkout() {
                     <h1>mega Tattoos</h1>
                 </Logo>
                 <Cart>
-
+                    <div className="tattoo">
+                        <img alt="" src="https://assets.website-files.com/624c2e2f733d8258bea34bed/627289cb75b7785f2a97be2e_guilherme-veredder-Efm6nZFlGBg-unsplash%20(1).jpg"></img>
+                        <div className="tattooInfo">
+                            <p>Tatuador: Fulano</p>
+                            <p>Preço: R$ 200,00</p>
+                            <ion-icon name="trash-outline" color="danger"></ion-icon>
+                        </div>
+                    </div>
                 </Cart>
+                <Balance>
+                    <p>Valor Total: R$ 200,00</p>
+                </Balance>
                 <Buttons>
                     <Button1 onClick={() => { navigate("/home"); }}>Home</Button1>
                     <Button2 >Confirmar</Button2>
@@ -74,23 +82,50 @@ const Cart = styled.div`
     height: 446px;
     margin-top: 8px;
     margin-bottom: 12px;
+    padding-top: 15px;
     box-sizing: border-box;
 
-    background: white;
+    background: transparent;
     border-width: 2px;
     border-color: #fff;
     border-radius: 2px;
+    overflow-y: auto;
     
-    .badge:after{
-        content:attr(value);
-        font-size:12px;
-        color: #fff;
-        background: red;
-        border-radius:50%;
-        padding: 0 5px;
-        position:relative;
-        
-        opacity:0.9;
+    
+    .tattoo {
+
+        border: 1px solid white;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        margin-bottom: 5px;
+
+        img {
+        width: 100px;
+        height: 100px;
+        border-radius: 4px;
+        object-fit: cover;
+        }
+
+        p {
+            color: white;
+            font-family: 'Marcellus', sans-serif;
+            font-size: 15px;
+        }
+
+    }
+   
+`
+
+const Balance = styled.div`
+    width: 300px;
+    margin: 10px 0px;
+
+    p {
+        color: white;
+        font-family: 'Marcellus', sans-serif;
+        font-size: 15px;
     }
 `
 

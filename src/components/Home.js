@@ -202,23 +202,7 @@ const UserBar = styled.div`
     ion-icon {
         width: 28px;
         height: 28px;
-    }
-
-    #notification-button {            
-            position: relative;
-            background-color: black;
-            width: 42px;            
-            overflow: visible!important;
-    }
-
-
-   #notifications-badge {
-            background-color: red;
-            position: absolute;
-            top: -3px;
-            right: -3px;
-            border-radius: 100%;
-    }
+    }    
 
     h5 {
     padding-right: 35px;
