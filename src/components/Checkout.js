@@ -11,8 +11,9 @@ import omega from "../assets/imagens/omega.png"
 export default function Checkout() {
 
     const navigate = useNavigate();
-    const { user, cart, setCart } = useContext(UserContext);
+    if (!user) { alert("Usuário não identificado, logue-se ou registre-se!"); navigate("/") }
 
+    const { user, cart, setCart } = useContext(UserContext);
     const [balance, setBalance] = useState(0);
 
     useEffect(() => {
@@ -32,7 +33,7 @@ export default function Checkout() {
 
         }
         );
-    }, [cart, user.id]);
+    }, [cart, setCart, user.id]);
 
 
     function deleteItem(productId) {

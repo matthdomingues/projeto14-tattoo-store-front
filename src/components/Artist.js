@@ -9,6 +9,8 @@ import omega from "../assets/imagens/omega.png"
 export default function Artist() {
 
     const navigate = useNavigate();
+    if (!user) { alert("Usuário não identificado, logue-se ou registre-se!"); navigate("/") }
+
     const { user, counter, setCounter, cart, setCart } = useContext(UserContext);
     const { idArtista } = useParams();
     const [portfolio, setPortfolio] = useState([]);
@@ -32,7 +34,7 @@ export default function Artist() {
 
 
     function addtoChart(user, tattoo) {
-        const requisicao = axios.post(`${process.env.REACT_APP_BACK_END_URL}/cart`,
+        axios.post(`${process.env.REACT_APP_BACK_END_URL}/cart`,
             {
                 id: user.id,
                 artist: artist.name,

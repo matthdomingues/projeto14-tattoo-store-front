@@ -16,9 +16,13 @@ export default function Home() {
 
     const navigate = useNavigate();
 
+    if (!user) { alert("Usuário não identificado, logue-se ou registre-se!"); navigate("/") }
+
     const { user, setUser, counter, setCounter, cart, setCart } = useContext(UserContext);
 
     const [artists, setArtists] = useState([]);
+
+
 
     useEffect(() => {
 

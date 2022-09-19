@@ -3,12 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@sendgrid/mail": "^7.7.0",
     "axios": "^0.27.2",
     "ionic": "^5.4.16",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-loader-spinner": "^5.3.3",
     "react-router-dom": "^6.3.0",
     "react-scripts": "^4.0.3",
     "react-slideshow-image": "^4.0.5",
