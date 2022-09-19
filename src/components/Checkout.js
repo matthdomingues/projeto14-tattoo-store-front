@@ -11,8 +11,6 @@ import omega from "../assets/imagens/omega.png"
 export default function Checkout() {
 
     const navigate = useNavigate();
-    if (!user) { alert("Usuário não identificado, logue-se ou registre-se!"); navigate("/") }
-
     const { user, cart, setCart } = useContext(UserContext);
     const [balance, setBalance] = useState(0);
 
@@ -71,6 +69,8 @@ export default function Checkout() {
         });
 
     };
+
+    if (!user) { alert("Usuário não identificado, logue-se ou registre-se!"); navigate("/") }
 
     return (
         <>

@@ -9,8 +9,6 @@ import omega from "../assets/imagens/omega.png"
 export default function Artist() {
 
     const navigate = useNavigate();
-    if (!user) { alert("Usuário não identificado, logue-se ou registre-se!"); navigate("/") }
-
     const { user, counter, setCounter, cart, setCart } = useContext(UserContext);
     const { idArtista } = useParams();
     const [portfolio, setPortfolio] = useState([]);
@@ -60,6 +58,8 @@ export default function Artist() {
     const avaliacoes = artist.star_1 + artist.star_2 + artist.star_3 + artist.star_4 + artist.star_5;
     const rating = (1 * artist.star_1 + 2 * artist.star_2 + 3 * artist.star_3 + 4 * artist.star_4 + 5 * artist.star_5) / avaliacoes;
     const estrelas = (rating).toFixed(2);
+
+    if (!user) { alert("Usuário não identificado, logue-se ou registre-se!"); navigate("/") }
 
     return (
         <>
