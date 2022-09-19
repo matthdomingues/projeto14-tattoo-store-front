@@ -28,7 +28,7 @@ export default function SignUp() {
             console.log(userRequest);
 
             try {
-                await axios.post("http://localhost:5000/sign-up", userRequest);
+                await axios.post(`${process.env.REACT_APP_BACK_END_URL}/sign-up`, userRequest);
                 alert('Cadastro feito com sucesso!');
                 navigate("/");
             } catch (error) {

@@ -1,27 +1,49 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import UserContext from "../assets/context/UserContext";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import axios from "axios";
 
 import { Fade } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css'
 
 import omega from "../assets/imagens/omega.png"
-import { icons, tattoos } from "../assets/Images";
+import { tattoos } from "../assets/Images";
+
 
 export default function Home() {
 
     const navigate = useNavigate();
 
-    // const { user } = useContext(UserContext);
-    // <img alt="" src={exit} onClick={() => { setUser(null); navigate("/"); }}></img>
+    const { user, setUser, counter, setCounter, cart, setCart } = useContext(UserContext);
 
-    // ion icons
-    // lixo: <ion-icon name="trash-outline"></ion-icon>
-    // cart: <ion-icon name="cart-outline"></ion-icon>
+    const [artists, setArtists] = useState([]);
 
-    const user = { name: "Matheus" }
+    useEffect(() => {
+
+        const requisicao = axios.get(
+            `${process.env.REACT_APP_BACK_END_URL}/artist`,
+        );
+
+        requisicao.then((res) =>
+            setArtists(res.data)
+        );
+
+    }, []);
+
+    useEffect(() => {
+
+        const requisicao = axios.get(
+            `${process.env.REACT_APP_BACK_END_URL}/cart/${user.id}`,
+        );
+
+        requisicao.then((res) => {
+            setCart(res.data)
+            setCounter(cart.length)
+        });
+
+    }, [cart, setCart, setCounter, user.id]);
 
     return (<>
         <Screen1>
@@ -34,8 +56,13 @@ export default function Home() {
                     <h5>Bem-vindo(a), {user.name}!</h5>
                 </>
                 <>
-                    <ion-icon name="cart-outline" color="light" onClick={() => { navigate("/checkout"); }}></ion-icon>
-                    <ion-icon name="exit-outline" color="light" onClick={() => { navigate("/"); }}></ion-icon>
+                    <Cart onClick={() => { navigate("/checkout") }}>
+                        <ion-icon name="cart-outline" color="light" ></ion-icon>
+                        {counter === 0 ? <></> : <CartQuantity>
+                            <p>{counter}</p>
+                        </CartQuantity>}
+                    </Cart>
+                    <ion-icon name="exit-outline" color="light" onClick={() => { setUser(null); navigate("/") }}></ion-icon>
                 </>
             </UserBar>
 
@@ -60,30 +87,17 @@ export default function Home() {
             <h2>Escolha seu estilo:</h2>
 
             <Body>
-                <Link1 to={"/artist1"}>
-                    <div className="artist">
-                        <img alt="" src={icons[0]}></img>
-                        <h1>Preto e Branco</h1>
-                    </div>
-                </Link1>
-                <Link1 to={"/artist2"}>
-                    <div className="artist">
-                        <img alt="" src={icons[1]}></img>
-                        <h1>Preto e Branco</h1>
-                    </div>
-                </Link1>
-                <Link1 to={"/artist3"}>
-                    <div className="artist">
-                        <img alt="" src={icons[2]}></img>
-                        <h1>Preto e Branco</h1>
-                    </div>
-                </Link1>
-                <Link1 to={"/artist4"}>
-                    <div className="artist">
-                        <img alt="" src={icons[3]}></img>
-                        <h1>Preto e Branco</h1>
-                    </div>
-                </Link1>
+                {artists.length ?
+                    artists.map((artist) =>
+                        <Link1 to={`/artist/${artist.id}`}>
+                            <div className="artist">
+                                <img alt="" src={artist.icon} />
+                                <h1>{artist.specialty}</h1>
+                            </div>
+                        </Link1>
+                    )
+                    : "Não tem artista nenhum"
+                }
             </Body>
 
             <h3>Em Breve:</h3>
@@ -94,6 +108,32 @@ export default function Home() {
 
     </>)
 };
+
+const CartQuantity = styled.div`  
+  position: absolute;
+  bottom: 18px;
+  left: 10px;
+  width: 12px;
+  height: 12px;
+  background-color: white;
+  border-radius: 5px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  p {
+    /* font-family: 'Fredoka One', cursive; */
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+    color: #EC665C;
+  }
+`
+
+const Cart = styled.div`
+  position: relative;
+  cursor: pointer; 
+`
 
 const Link1 = styled(Link)`
     text-decoration: none ;
@@ -202,6 +242,7 @@ const UserBar = styled.div`
     ion-icon {
         width: 28px;
         height: 28px;
+        cursor: pointer; 
     }    
 
     h5 {
@@ -251,53 +292,27 @@ const Slideshow = styled.div`
     }
 `
 
-const Button1 = styled.button`
-        display: flex;
-        width: 150px;
-        height: 45px;        
-        
-        font-style: normal;
-        font-weight: 400;        
-        line-height: 26px;
-        text-align: center;
-        color: #FFFFFF;
-        margin-bottom: 25px;
-        box-sizing: border-box;
-        cursor: pointer;
-        text-align: center;
-        align-items: center;
-        justify-content: center;
-
-        border-style: solid;
-        border-width: 1px;
-        border-color: #fff;
-        background-color: transparent;       
-        font-family: 'Marcellus', sans-serif;
-        color: #fff;
-        font-size: 14px;
-        line-height: 1em;
-        letter-spacing: 3.36px;
-        text-transform: uppercase;
-
-        &:disabled{
-            opacity: 0.7;
-        }
-`
-
 const Body = styled.div`
 
-    height: 110px;
+    height: 130px;
     width: 350px;
     display: flex;
-    align-items: center;    
+    align-items: center;
+    justify-content: space-evenly;
+       
 
     .artist {        
-
+        
         display: flex;
         flex-direction: column;
-        align-items: center;       
+        align-items: center;
+        justify-content: center;
+        margin-top: 35px;
+            box-sizing: border-box;
 
         h1 {
+            width:69px;
+            height: 69px;
             margin-top: 5px;
             box-sizing: border-box;
             font-family: 'Marcellus', sans-serif;
@@ -305,7 +320,9 @@ const Body = styled.div`
             font-weight: 400;
             font-size: 15px;
             line-height: 17px;
-            text-align: center;    
+            text-align: center;
+            
+            word-break: break-word;    
             color: white;
         }
     }
