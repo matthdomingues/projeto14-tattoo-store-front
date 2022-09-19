@@ -14,6 +14,8 @@ export default function Artist() {
     const [portfolio, setPortfolio] = useState([]);
     const [artist, setArtist] = useState({});
 
+    if (!user) { alert("Usuário não identificado, logue-se ou registre-se!"); window.location.href = '/'; }
+
     useEffect(() => {
         const requisicao = axios.get(`${process.env.REACT_APP_BACK_END_URL}/portfolio/${idArtista}`);
 
@@ -58,8 +60,6 @@ export default function Artist() {
     const avaliacoes = artist.star_1 + artist.star_2 + artist.star_3 + artist.star_4 + artist.star_5;
     const rating = (1 * artist.star_1 + 2 * artist.star_2 + 3 * artist.star_3 + 4 * artist.star_4 + 5 * artist.star_5) / avaliacoes;
     const estrelas = (rating).toFixed(2);
-
-    if (!user) { alert("Usuário não identificado, logue-se ou registre-se!"); navigate("/") }
 
     return (
         <>

@@ -14,10 +14,12 @@ export default function Checkout() {
     const { user, cart, setCart } = useContext(UserContext);
     const [balance, setBalance] = useState(0);
 
+    if (!user) { alert("Usuário não identificado, logue-se ou registre-se!"); window.location.href = '/'; }
+
     useEffect(() => {
 
         const requisicao = axios.get(
-            `http://localhost:5000/cart/${user.id}`,
+            `${process.env.REACT_APP_BACK_END_URL}/cart/${user.id}`,
         );
 
         const sum = (cart.reduce((accumulator, product) => {
@@ -36,13 +38,13 @@ export default function Checkout() {
 
     function deleteItem(productId) {
         const requisicao = axios.delete(
-            `http://localhost:5000/cart/${productId}`,
+            `${process.env.REACT_APP_BACK_END_URL}/cart/${productId}`,
         );
 
         requisicao.then(() => {
 
             const requisicao = axios.get(
-                `http://localhost:5000/cart/${user.id}`,
+                `${process.env.REACT_APP_BACK_END_URL}/cart/${user.id}`,
             );
 
             requisicao.then((res) =>
@@ -54,23 +56,22 @@ export default function Checkout() {
 
     function checkout(userId) {
         const requisicao = axios.delete(
-            `http://localhost:5000/checkout/${userId}`,
+            `${process.env.REACT_APP_BACK_END_URL}/checkout/${userId}`,
         );
 
         requisicao.then(() => {
-            alert("Pedido realizado com sucesso!\nEnviaremos mais informações sobre como prosseguir a compra no  seu email.")
+            alert("Pedido realizado com sucesso!\nEnviaremos mais informações sobre como prosseguir a compra no seu email.")
             const requisicao = axios.get(
-                `http://localhost:5000/cart/${user.id}`,
+                `${process.env.REACT_APP_BACK_END_URL}/cart/${user.id}`,
             );
 
             requisicao.then((res) =>
-                setCart(res.data)
+                setCart(res.data),
+                navigate("/home")
             );
         });
 
     };
-
-    if (!user) { alert("Usuário não identificado, logue-se ou registre-se!"); navigate("/") }
 
     return (
         <>

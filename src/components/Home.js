@@ -18,6 +18,8 @@ export default function Home() {
     const { user, setUser, counter, setCounter, cart, setCart } = useContext(UserContext);
     const [artists, setArtists] = useState([]);
 
+    if (!user) { alert("Usuário não identificado, logue-se ou registre-se!"); window.location.href = '/'; }
+
     useEffect(() => {
 
         const requisicao = axios.get(
@@ -42,8 +44,6 @@ export default function Home() {
         });
 
     }, [cart, setCart, setCounter, user.id]);
-
-    if (!user) { alert("Usuário não identificado, logue-se ou registre-se!"); navigate("/") }
 
     return (<>
         <Screen1>
